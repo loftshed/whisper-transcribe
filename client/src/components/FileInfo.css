@@ -1,0 +1,24 @@
+.file-info {
+  display: flex;
+  flex-direction: column;
+  background-color: #323234;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.file-info-item {
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.file-info-key {
+  color: #707070;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.file-info-header {
+  padding: 5px 10px;
+  border-radius: 8px;
+}
