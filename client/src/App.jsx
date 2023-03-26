@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ButtonGroup from './components/ButtonGroup';
+
 import './App.css';
 
 function App() {
@@ -16,17 +17,18 @@ function App() {
         />
       </div>
       <div className="result-container">
-        <h2>Transcript</h2>
+        <h2>Transcript ({transcription.length} characters)</h2>
         <div id="transcript" className="text-container">
-          <p>{transcription || 'Upload a file to transcribe.'}</p>
+          <textarea
+            className="transcript-textarea"
+            value={transcription}
+            placeholder="Upload an audio file or paste some text"
+            onChange={(ev) => setTranscription(ev.target.value)}
+          />
         </div>
         <h2>Summary</h2>
         <div id="summary" className="text-container">
-          <ul>
-            {summary && summary.length > 1
-              ? summary?.map((point) => <li>{point}</li>)
-              : 'Transcribe some audio to summarize.'}
-          </ul>
+          <ul>{summary}</ul>
         </div>
       </div>
     </div>

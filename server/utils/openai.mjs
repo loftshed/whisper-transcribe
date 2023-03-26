@@ -31,7 +31,7 @@ const summarize = async (text) => {
         {
           role: 'system',
           content:
-            'You are a bot whose purpose is to condense a transcript into the most salient points. Please return your response as an array of strings, one per line.',
+            'Your task is to take a raw transcript and clean it up the formatting as much as possible. Remove filler words, avoid long unbroken paragraphs, and clarify language. Try to identify when a second speaker might be interjecting with a question or comment.',
         },
         {
           role: 'user',
@@ -44,7 +44,8 @@ const summarize = async (text) => {
 
     return summary;
   } catch (error) {
-    return error;
+    console.log(error);
+    return response;
   }
 };
 

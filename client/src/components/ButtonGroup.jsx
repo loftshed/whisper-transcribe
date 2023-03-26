@@ -39,17 +39,47 @@ function ButtonGroup({ setTranscription, transcription, setSummary }) {
     setLoadingSummary(true);
 
     try {
-      const response = await fetch(`${SERVER_URL}/summarize`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: transcription }),
-      });
+      if (transcription.length > 4096) {
+        // Split transcription into chunks of approximately 4096 characters
+        // Only split at the end of a sentence.
+        const chunks = transcription.match(/[^\.!\?]+[\.!\?]+/g);
+        const chunkedTranscription = chunks.reduce(
+          (acc, chunk) => {
+            if (acc[acc.length - 1].length + chunk.length < 4096) {
+              acc[acc.length - 1] += chunk;
+            } else {
+              acc.push(chunk);
+            }
+            return acc;
+          },
+          ['']
+        );
+
+        // Send each chunk to the server for summarization
+        const responses = await Promise.all(
+          chunkedTranscription.map(async (chunk) => {
+            const response = await fetch(`${SERVER_URL}/summarize`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ text: chunk }),
+            });
+            return response.json();
+          })
+        );
+
+        console.log(responses);
+
+        const summary = responses.reduce((acc, response) => {
+          return acc + ' ' + response.data;
+        }, '');
+        setSummary(summary);
+        return;
+      }
 
       const { data } = await response.json();
-      const summaryArray = data.split('\n').map((line) => line.slice(2));
-      if (data) setSummary(summaryArray);
+      setSummary(data);
     } catch (error) {
       console.error(error);
     }
