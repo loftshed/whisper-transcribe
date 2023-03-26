@@ -22,7 +22,11 @@ function App() {
         </div>
         <h2>Summary</h2>
         <div id="summary" className="text-container">
-          <p>{summary || 'Transcribe something to create a summary.'}</p>
+          <ul>
+            {summary && summary.length > 1
+              ? summary?.map((point) => <li>{point}</li>)
+              : 'Transcribe some audio to summarize.'}
+          </ul>
         </div>
       </div>
     </div>

@@ -48,7 +48,8 @@ function ButtonGroup({ setTranscription, transcription, setSummary }) {
       });
 
       const { data } = await response.json();
-      if (data) setSummary(data);
+      const summaryArray = data.split('\n').map((line) => line.slice(2));
+      if (data) setSummary(summaryArray);
     } catch (error) {
       console.error(error);
     }
