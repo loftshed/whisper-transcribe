@@ -4,20 +4,25 @@ import './App.css';
 
 function App() {
   const [transcription, setTranscription] = useState('');
+  const [summary, setSummary] = useState('');
 
   return (
     <div className="App">
-      <div className="outer-container">
+      <div className="button-container">
+        <ButtonGroup
+          setTranscription={setTranscription}
+          transcription={transcription}
+          setSummary={setSummary}
+        />
+      </div>
+      <div className="result-container">
+        <h2>Transcript</h2>
         <div id="transcript" className="text-container">
-          <h2>Transcript</h2>
-          <p>{transcription}</p>
+          <p>{transcription || 'Upload a file to transcribe.'}</p>
         </div>
-        <div className="button-summary">
-          <ButtonGroup setTranscription={setTranscription} />
-          <div id="summary" className="text-container">
-            <h2>Summary</h2>
-            ...summary goes here
-          </div>
+        <h2>Summary</h2>
+        <div id="summary" className="text-container">
+          <p>{summary || 'Transcribe something to create a summary.'}</p>
         </div>
       </div>
     </div>
